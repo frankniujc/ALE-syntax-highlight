@@ -1,0 +1,54 @@
+%YAML1.2
+---
+# See http://www.sublimetext.com/docs/3/syntax.html
+name: ale
+file_extensions: [pl]
+scope: source.pl
+contexts:
+  main:
+    # Strings begin and end with quotes, and use backslashes as an escape
+    # character
+    - match: '"'
+      scope: punctuation.definition.string.begin.pl
+      push: double_quoted_string
+
+    # Comments begin with a '%' and finish at the end of the line
+    - match: '%'
+      scope: punctuation.definition.comment.pl
+      push: line_comment
+
+    # Keywords
+    - match: '\b(sub|cat|rule|intro|--->)\b'
+      scope: keyword.key.pl
+
+    # Keywords
+    - match: '\b(-)?[0-9.]+\b'
+      scope: constant.numeric.pl
+
+    - match: '(--->)|(===>)'
+      scope: keyword.operator.pl
+
+    - match: '[A-Z]+[A-Za-z0-9]*'
+      scope: constant.variable.pl
+
+    - match: '\['
+      push: list
+
+  double_quoted_string:
+    - meta_scope: string.quoted.double.pl
+    - match: '\\.'
+      scope: constant.character.escape.pl
+    - match: '"'
+      scope: punctuation.definition.string.end.pl
+      pop: true
+
+  line_comment:
+    - meta_scope: comment.line.pl
+    - match: $
+      pop: true
+
+  list:
+    - match: '[a-zA-Z0-9\_]*'
+      scope: markup.list.pl
+    - match: '\]'
+      pop: true
