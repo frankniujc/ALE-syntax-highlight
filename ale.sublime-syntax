@@ -26,10 +26,13 @@ contexts:
       scope: constant.numeric.pl
 
     - match: '(--->)|(===>)'
-      scope: keyword.operator.pl
+      scope: keyword.key.pl
 
     - match: '[A-Z]+[A-Za-z0-9]*'
-      scope: constant.variable.pl
+      scope: variable.language.pl
+
+    - match: '[A-Za-z0-9]*:'
+      scope: constant.character.escape.pl
 
     - match: '\['
       push: list
@@ -49,6 +52,6 @@ contexts:
 
   list:
     - match: '[a-zA-Z0-9\_]*'
-      scope: markup.list.pl
+      scope: variable.parameter.pl
     - match: '\]'
       pop: true
