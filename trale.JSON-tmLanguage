@@ -1,0 +1,63 @@
+{
+    "name": "trale",
+    "scopeName": "source.trale",
+    "fileTypes": ["trale"],
+    "uuid": "07629b98-022c-4204-a227-aa65ae352fab",
+
+    // keyword, comment, invalid, entity.name.function, storage.class.type
+
+    "patterns": [
+
+        {   //operators
+            "name": "storage.function.trale",
+            "match": "(\\?|:|-|\\*|<|\\+|/|-|=|<|<=|>|>=|\\bnot\\b|\\band\\b|\\bor\\b)"
+        },
+
+        {   // control tokens
+            "name": "keyword.control.trale",
+            "match": "\\b(if|else|then|var|repeat|until|while|do|exit|not|when|write|newline|return|:|\\.\\.)\\b"
+        },
+
+        {   // typedef tokens
+            "name": "variable.other.generic-type.trale",
+            "match": "\\b(integer|boolean|text)\\b"
+        },
+
+        {   // boolean tokens
+            "name": "constant.language.boolean.trale",
+            "match": "\\b(true|false)\\b"
+        },
+
+        {   //function or procedure tokens
+            "name": "entity.name.function.trale",
+            "match": "\\b(function|procedure)\\s*(\\w*+)?"
+        },
+
+        // {   // errors on unknown quoted token
+            // "name": "invalid.trale",
+            // "match": "'[^\\s]*'"
+        // },
+
+
+        {   // line comments
+            "name": "comment.line.trale",
+            "begin": "%",
+            "end": "$",
+            "patterns": [
+            ]
+        },
+        
+        {   // numeric constants
+            "name": "constant.numeric.trale",
+            "match": "\\b-?[0-9]*\\b"
+        },
+
+        {   //string constants
+            "name": "string.trale",
+            "match": "\"[^\"]*\""
+        }
+
+    ],
+    "repository": {
+    }
+}

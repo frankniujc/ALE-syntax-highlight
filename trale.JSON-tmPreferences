@@ -1,0 +1,15 @@
+// [PackageDev] target_format: plist
+{
+    "name": "Comments",
+    "scope": "source.trale",
+    "settings": {
+        "shellVariables": [
+            {
+                "name": "TM_COMMENT_START",
+                "value": "% "
+            }
+        ]
+    },
+    "uuid": "ceac1c16-c073-11e5-9912-ba0be0483c18
+"
+}
