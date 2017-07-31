@@ -196,7 +196,7 @@
                 </dict>
             </dict>
             <key>end</key>
-            <string>\.</string>
+            <string>(\.)</string>
             <key>endCaptures</key>
             <dict>
                 <key>1</key>
@@ -224,6 +224,12 @@
                     <string>(===>)</string>
                     <key>name</key>
                     <string>keyword.control.trale</string>
+                </dict>
+                <dict>
+                    <key>match</key>
+                    <string>(\,)</string>
+                    <key>name</key>
+                    <string>punctuation.separator.trale</string>
                 </dict>
                 <dict>
                     <key>match</key>
