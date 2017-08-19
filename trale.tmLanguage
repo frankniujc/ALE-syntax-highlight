@@ -107,7 +107,7 @@
         <!-- decl -->
         <dict>
             <key>begin</key>
-            <string>(\w+\s+)(sub)</string>
+            <string>(\w+\s+)(sub|intro)</string>
             <key>beginCaptures</key>
             <dict>
                 <key>1</key>
