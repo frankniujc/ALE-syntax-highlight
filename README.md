@@ -1,6 +1,6 @@
-# Trale Grammar Syntax Highlight
+# ALE Syntax Highlight
 
-Simple tmLanguage package for syntax highlighting trale grammars.
+Simple tmLanguage package for syntax highlighting [ALE](http://www.cs.toronto.edu/~gpenn/ale.html) grammars.
 
 ## Installation
 
