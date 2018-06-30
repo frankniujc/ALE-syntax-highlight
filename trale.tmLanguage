@@ -429,12 +429,6 @@
                         </dict>
                     </array>
                 </dict>
-
-
-
-
-
-
                 <dict>
                     <key>match</key>
                     <string>(\,)</string>
@@ -444,6 +438,178 @@
                 <dict>
                     <key>match</key>
                     <string>(cat|goal)(>)</string>
+                    <key>captures</key>
+                    <dict>
+                        <key>1</key>
+                        <dict>
+                            <key>name</key>
+                            <string>keyword.control.trale</string>
+                        </dict>
+                        <key>2</key>
+                        <dict>
+                            <key>name</key>
+                            <string>punctuation.operand.trale</string>
+                        </dict>
+                    </dict>
+                </dict>
+                <dict>
+                    <key>match</key>
+                    <string>([\(\)])</string>
+                    <key>name</key>
+                    <string>punctuation.section.parameters</string>
+                </dict>
+                <dict>
+                    <key>match</key>
+                    <string>([A-Z]\w*)</string>
+                    <key>name</key>
+                    <string>support.type.trale</string>
+                </dict>
+                <dict>
+                    <key>match</key>
+                    <string>(\w*)</string>
+                    <key>name</key>
+                    <string>variable.value.trale</string>
+                </dict>
+                <dict>
+                    <key>match</key>
+                    <string>(\w*)(:)</string>
+                    <key>captures</key>
+                    <dict>
+                        <key>1</key>
+                        <dict>
+                            <key>name</key>
+                            <string>variable.parameter.trale</string>
+                        </dict>
+                        <key>2</key>
+                        <dict>
+                            <key>name</key>
+                            <string>punctuation.separator.annotation.trale</string>
+                        </dict>
+                        <key>3</key>
+                        <dict>
+                            <key>name</key>
+                            <string>variable.value.trale</string>
+                        </dict>
+                    </dict>
+                </dict>
+            </array>
+        </dict>
+
+
+        <!-- lexical rules -->
+        <dict>
+            <key>begin</key>
+            <string>(\w+\s+)(lex_rule)</string>
+            <key>beginCaptures</key>
+            <dict>
+                <key>1</key>
+                <dict>
+                    <key>name</key>
+                    <string>meta.function-call.trale</string>
+                </dict>
+                <key>2</key>
+                <dict>
+                    <key>name</key>
+                    <string>keyword.control.trale</string>
+                </dict>
+            </dict>
+            <key>end</key>
+            <string>(\.)</string>
+            <key>endCaptures</key>
+            <dict>
+                <key>1</key>
+                <dict>
+                    <key>name</key>
+                    <string>punctuation.section.arguments.end.trale</string>
+                </dict>
+            </dict>
+            <key>name</key>
+            <string>meta.function.trale</string>
+            <key>patterns</key>
+            <array>
+                <dict>
+                    <key>begin</key>
+                    <string>%</string>
+                    <key>end</key>
+                    <string>$</string>
+                    <key>name</key>
+                    <string>comment.line.trale</string>
+                    <key>patterns</key>
+                    <array/>
+                </dict>
+                <dict>
+                    <key>match</key>
+                    <string>(\*\*>|morphs)</string>
+                    <key>name</key>
+                    <string>keyword.control.trale</string>
+                </dict>
+
+                <!-- clause -->
+                <dict>
+                    <key>begin</key>
+                    <string>(\w+)(\()</string>
+                    <key>beginCaptures</key>
+                    <dict>
+                        <key>1</key>
+                        <dict>
+                            <key>name</key>
+                            <string>meta.function-call.trale</string>
+                        </dict>
+                        <key>2</key>
+                        <dict>
+                            <key>name</key>
+                            <string>punctuation.section.arguments.begin</string>
+                        </dict>
+                        <key>3</key>
+                        <dict>
+                            <key>name</key>
+                            <string>punctuation.section.arguments.begin</string>
+                        </dict>
+                    </dict>
+                    <key>end</key>
+                    <string>(\))</string>
+                    <key>endCaptures</key>
+                    <dict>
+                        <key>1</key>
+                        <dict>
+                            <key>name</key>
+                            <string>punctuation.section.arguments.end.trale</string>
+                        </dict>
+                    </dict>
+                    <key>name</key>
+                    <string>meta.function.trale</string>
+                    <key>patterns</key>
+                    <array>
+
+                        <dict>
+                            <key>match</key>
+                            <string>([\[\]])</string>
+                            <key>name</key>
+                            <string>punctuation.section.parameters</string>
+                        </dict>
+                        <dict>
+                            <key>match</key>
+                            <string>(\w*)</string>
+                            <key>name</key>
+                            <string>meta.function-call.arguments.trale</string>
+                        </dict>
+                        <dict>
+                            <key>match</key>
+                            <string>([\,\|])</string>
+                            <key>name</key>
+                            <string>punctuation.separator.list.trale</string>
+                        </dict>
+                    </array>
+                </dict>
+                <dict>
+                    <key>match</key>
+                    <string>(\,)</string>
+                    <key>name</key>
+                    <string>punctuation.separator.trale</string>
+                </dict>
+                <dict>
+                    <key>match</key>
+                    <string>(becomes|when)</string>
                     <key>captures</key>
                     <dict>
                         <key>1</key>
