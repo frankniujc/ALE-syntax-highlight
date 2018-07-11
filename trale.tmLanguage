@@ -539,7 +539,7 @@
                 </dict>
                 <dict>
                     <key>match</key>
-                    <string>(\*\*>|morphs)</string>
+                    <string>(\*\*>|morphs|if)</string>
                     <key>name</key>
                     <string>keyword.control.trale</string>
                 </dict>
