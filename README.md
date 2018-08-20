@@ -1,8 +1,8 @@
 # ALE Syntax Highlight
 
-Simple tmLanguage package for syntax highlighting [ALE](http://www.cs.toronto.edu/~gpenn/ale.html) grammars.
+A simple tmLanguage package for syntax highlighting [ALE](http://www.cs.toronto.edu/~gpenn/ale.html) grammars.
 
-## Installation
+## Sublime Installation
 
 To install, move the folder to `~/.config/sublime-text-3/Packages/`
 
