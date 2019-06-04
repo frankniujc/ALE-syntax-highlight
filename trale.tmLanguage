@@ -18,6 +18,7 @@
             <string>keyword.control.trale</string>
         </dict>
 
+
         <!-- lexicon -->
         <dict>
             <key>begin</key>
@@ -327,7 +328,7 @@
         <!-- rules -->
         <dict>
             <key>begin</key>
-            <string>(\w+\s+)(rule)</string>
+            <string>([\w{}]+\s+)(rule)</string>
             <key>beginCaptures</key>
             <dict>
                 <key>1</key>
@@ -370,6 +371,12 @@
                     <string>(===>)</string>
                     <key>name</key>
                     <string>keyword.control.trale</string>
+                </dict>
+                <dict>
+                    <key>match</key>
+                    <string>({[\w\(\)]+})</string>
+                    <key>name</key>
+                    <string>constant.other.placeholder.trale</string>
                 </dict>
 
                 <!-- clause -->
@@ -499,7 +506,7 @@
         <!-- lexical rules -->
         <dict>
             <key>begin</key>
-            <string>(\w+\s+)(lex_rule)</string>
+            <string>([\w{}]+\s+)(lex_rule)</string>
             <key>beginCaptures</key>
             <dict>
                 <key>1</key>
@@ -543,6 +550,13 @@
                     <key>name</key>
                     <string>keyword.control.trale</string>
                 </dict>
+                <dict>
+                    <key>match</key>
+                    <string>({[\w\(\)]+})</string>
+                    <key>name</key>
+                    <string>constant.other.placeholder.trale</string>
+                </dict>
+
 
                 <!-- clause -->
                 <dict>
