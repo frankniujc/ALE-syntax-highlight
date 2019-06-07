@@ -1,0 +1,217 @@
+comment: ALE syntax highlight
+name: ale
+scopeName: source.ale
+fileTypes: [pl, plt]
+uuid: 11B0273F-0284-4483-B17B-4B8D0A9294CC
+
+patterns:
+
+- name: template.code-block.ale
+  comment: Python code block
+  begin: (% PYTHON_FUNC_START)
+  beginCaptures:    
+    '1': {name: comment.line.ale}
+  end: (?=(% PYTHON_FUNC_END))
+  patterns:
+    - include: 'source.python'
+
+- name: template.code-block.ale
+  comment: Python code block
+  begin: (% PYTHON_LINE_CHECK_START)
+  beginCaptures:    
+    '1': {name: comment.line.ale}
+  end: (?=(% PYTHON_LINE_CHECK_END))
+  patterns:
+    - include: 'source.python'
+
+- include: '#comments'
+
+- name: list.ale
+  include: '#lists'
+
+- name: lexical-entry.ale
+  comment: Lexical entries
+  begin: ('?[\w|\\']+'?\s+)(--->)
+  beginCaptures:
+    '1': {name: constant.other.atom.simple.ale}
+    '2': {name: keyword.control.ale}
+  end: (\.)
+  endCaptures:
+    '1': {name: punctuation.definition.arguments.end.ale}
+  patterns:
+    - include: '#cat_entry'
+
+- name: phrase-rule.ale
+  comment: Phrase rule
+  begin: ([[:alpha:]_][[:alnum:]_]*)\s+(rule)
+  beginCaptures:
+    '1': {name: meta.function-call.generic.ale}
+    '2': {name: storage.type.function.ale}
+  end: (\.)
+  endCaptures:
+    '1': {name: punctuation.definition.arguments.end.ale}
+  patterns:
+    - include: '#cat_entry'
+    - include: '#comments'
+    - include: '#goal_calling'
+    - name: storage.type.struct.ale
+      match: \b(cat|goal)\b>|===>
+
+- name: lex-rule.ale
+  comment: Lexical rule
+  begin: ([[:alpha:]_][[:alnum:]_]*)\s+(lex_rule)
+  beginCaptures:
+    '1': {name: meta.function-call.generic.ale}
+    '2': {name: storage.type.function.ale}
+  end: (\.)
+  endCaptures:
+    '1': {name: punctuation.definition.arguments.end.ale}
+  patterns:
+    - include: '#cat_entry'
+    - include: '#comments'
+    - include: '#lists'
+    - include: '#variable_arguments'
+    - include: '#when_pattern'
+    - name: storage.type.function
+      match: \b(\*\*>|morphs|if|becomes)\b
+
+- name: type.definition.ale
+  comment: Defining types
+  begin: (\w+)\s+(?=(sub|intro))
+  beginCaptures:
+    '1': {name: meta.function-call.generic.ale}
+  end: (\.)
+  endCaptures:
+    '1': {name: punctuation.definition.parameters.begin.ale}
+  patterns:
+  - contentName: type.definition.sublist.ale
+    begin: \b(sub)\b\s+\[
+    beginCaptures:
+      '1': {name: storage.type.function}
+    end: \]
+    patterns:
+    - include: '#type_list_item'
+  - contentName: type.definition.intro.ale
+    begin: \b(intro)\b\s+\[
+    beginCaptures:
+      '1': {name: storage.type.function}
+    end: \]
+    patterns:
+    - include: '#feature_list_item'
+    - include: '#comments'
+
+- include: '#goal_calling'
+
+- name: goal.definition.ale
+  comment: Defining goals
+  begin: \s*(if)\s+
+  beginCaptures:
+    '1': {name: storage.type.function.ale}
+  end: (\.)
+  endCaptures:
+    '1': {name: punctuation.definition.parameters.begin.ale}
+  patterns:
+  - contentName: goal.name.ale
+    patterns:
+    - include: '#goal_calling'
+    - include: '#constants'
+    - include: '#comments'
+
+repository:
+  cat_entry:
+    name: cat_entry.ale
+    begin: (\()
+    end: (\))
+    patterns:
+    - include: '#type_value'
+    - include: '#lists'
+    - include: '#variable_arguments'
+
+  type_list_item:
+    name: constant.other.atom.simple.ale
+    match: \w+
+
+  feature_list_item:
+    match: (\w+)\s*(:)\s*(\w+)
+    captures:
+      '1': {name: variable.parameter.ale}
+      '2': {name: punctuation.separator.annotation.ale}
+      '3': {name: support.type.ale}
+      
+
+  when_pattern:
+    name: when_pattern.ale
+    begin: (when)
+    beginCaptures:
+      '1': {name: storage.type.function}
+    end: (?=(\.|,))
+    endCaptures:
+      '1': {name: punctuation.definition.arguments.end.ale}
+    patterns:
+      - include: '#goal_calling'  
+
+  type_value:
+    patterns:
+    - match: (\w+)\:\s*
+      captures:
+        '1': {name: support.type.ale}
+
+  comments:
+    patterns:
+    - name: comment.line.note.ale
+      match: (%+)\s*(BUG|FIXME|TODO).*$
+      captures:
+        '1': {name: punctuation.definition.comment.ale}
+        '2': {name: comment.line.note.notation.ale}
+    - name: comment.line.number-sign.ale
+      match: (%+).*$
+      captures:
+        '1': {name: punctuation.definition.comment.ale}
+
+  constants:
+    name: constant.language.ale
+    match: \b(true|bot|top)\b
+
+  variable_arguments:
+    match: \b[A-Z]\w*
+    name: variable.parameter.uppercase.ale
+
+  goal_calling:
+    name: goal.call.ale
+    begin: ([[:alpha:]_][[:alnum:]_]*)\s*(?=(\())
+    beginCaptures:
+      '1': {name: meta.function-call.generic.ale}
+    end: (\))
+    endCaptures:
+      '1': {name: punctuation.definition.arguments.end.ale}
+    patterns:
+    - contentName: meta.function-call.arguments.ale
+      begin: (\()
+      beginCaptures:
+        '1': {name: punctuation.definition.arguments.begin.ale}
+      end: (?=(\)))
+      endCaptures:
+        '1': {name: punctuation.definition.arguments.end.ale}
+      patterns:
+      - include: '#variable_arguments'
+      - include: '#lists'
+      - include: '#cat_entry'
+      - include: '#type_value'
+
+  lists:
+    begin: (\[)
+    beginCaptures:
+      '1': {name: punctuation.definition.list.begin.ale}
+    end: (\])
+    endCaptures:
+      '1': {name: punctuation.definition.list.end.ale}
+    patterns:
+    - match: (\,|\|)
+      name: punctuation.separator.parameters.ale
+    - include: '#variable_arguments'
+    - include: '#lists'
+    - include: '#cat_entry'
+    - include: '#type_value'
+
+author: Frank Niu
+bundleUUID: EB590797-FBEE-4BEA-A140-8339AFD2CE1B

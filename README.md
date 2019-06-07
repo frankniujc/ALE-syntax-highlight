@@ -4,4 +4,4 @@ A simple tmLanguage package for syntax highlighting [ALE](http://www.cs.toronto.
 
 ## Sublime Installation
 
-To install, move the folder to `~/.config/sublime-text-3/Packages/`
+Use [package control](https://packagecontrol.io/packages/ALE%20Syntax%20Highlight).

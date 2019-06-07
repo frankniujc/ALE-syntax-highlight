@@ -5,7 +5,7 @@
 	<key>name</key>
 	<string>Comments</string>
 	<key>scope</key>
-	<string>source.trale</string>
+	<string>source.ale</string>
 	<key>settings</key>
 	<dict>
 		<key>shellVariables</key>
