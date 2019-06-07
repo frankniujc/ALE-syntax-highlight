@@ -45,7 +45,7 @@ patterns:
   comment: Phrase rule
   begin: ([[:alpha:]_][[:alnum:]_]*)\s+(rule)
   beginCaptures:
-    '1': {name: meta.function-call.generic.ale}
+    '1': {name: entity.name.function.ale}
     '2': {name: storage.type.function.ale}
   end: (\.)
   endCaptures:
@@ -61,7 +61,7 @@ patterns:
   comment: Lexical rule
   begin: ([[:alpha:]_][[:alnum:]_]*)\s+(lex_rule)
   beginCaptures:
-    '1': {name: meta.function-call.generic.ale}
+    '1': {name: variable.function.ale}
     '2': {name: storage.type.function.ale}
   end: (\.)
   endCaptures:
@@ -79,7 +79,7 @@ patterns:
   comment: Defining types
   begin: (\w+)\s+(?=(sub|intro))
   beginCaptures:
-    '1': {name: meta.function-call.generic.ale}
+    '1': {name: variable.function.ale}
   end: (\.)
   endCaptures:
     '1': {name: punctuation.definition.parameters.begin.ale}
@@ -180,7 +180,7 @@ repository:
     name: goal.call.ale
     begin: ([[:alpha:]_][[:alnum:]_]*)\s*(?=(\())
     beginCaptures:
-      '1': {name: meta.function-call.generic.ale}
+      '1': {name: variable.function.ale}
     end: (\))
     endCaptures:
       '1': {name: punctuation.definition.arguments.end.ale}
