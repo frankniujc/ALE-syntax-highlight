@@ -14,7 +14,7 @@
 		<string>plt</string>
 	</array>
 	<key>name</key>
-	<string>ale_test</string>
+	<string>ale</string>
 	<key>patterns</key>
 	<array>
 		<dict>
