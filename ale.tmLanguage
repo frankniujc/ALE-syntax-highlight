@@ -14,68 +14,24 @@
 		<string>plt</string>
 	</array>
 	<key>name</key>
-	<string>ale</string>
+	<string>ale_test</string>
 	<key>patterns</key>
 	<array>
 		<dict>
-			<key>begin</key>
-			<string>(% PYTHON_FUNC_START)</string>
-			<key>beginCaptures</key>
-			<dict>
-				<key>1</key>
-				<dict>
-					<key>name</key>
-					<string>comment.line.ale</string>
-				</dict>
-			</dict>
-			<key>comment</key>
-			<string>Python code block</string>
-			<key>end</key>
-			<string>(?=(% PYTHON_FUNC_END))</string>
+			<key>include</key>
+			<string>#trale_item</string>
 			<key>name</key>
-			<string>template.code-block.ale</string>
-			<key>patterns</key>
-			<array>
-				<dict>
-					<key>include</key>
-					<string>source.python</string>
-				</dict>
-			</array>
+			<string>trale-item.ale</string>
 		</dict>
 		<dict>
-			<key>begin</key>
-			<string>(% PYTHON_LINE_CHECK_START)</string>
-			<key>beginCaptures</key>
-			<dict>
-				<key>1</key>
-				<dict>
-					<key>name</key>
-					<string>comment.line.ale</string>
-				</dict>
-			</dict>
-			<key>comment</key>
-			<string>Python code block</string>
-			<key>end</key>
-			<string>(?=(% PYTHON_LINE_CHECK_END))</string>
+			<key>include</key>
+			<string>#list</string>
 			<key>name</key>
-			<string>template.code-block.ale</string>
-			<key>patterns</key>
-			<array>
-				<dict>
-					<key>include</key>
-					<string>source.python</string>
-				</dict>
-			</array>
+			<string>list.ale</string>
 		</dict>
 		<dict>
 			<key>include</key>
 			<string>#comments</string>
-		</dict>
-		<dict>
-			<key>include</key>
-			<string>#lists</string>
-			<key>name</key>
-			<string>list.ale</string>
 		</dict>
 		<dict>
 			<key>begin</key>
@@ -111,59 +67,23 @@
 			<array>
 				<dict>
 					<key>include</key>
-					<string>#cat_entry</string>
-				</dict>
-			</array>
-		</dict>
-		<dict>
-			<key>begin</key>
-			<string>([[:alpha:]_][[:alnum:]_]*)\s+(rule)</string>
-			<key>beginCaptures</key>
-			<dict>
-				<key>1</key>
-				<dict>
-					<key>name</key>
-					<string>entity.name.function.ale</string>
-				</dict>
-				<key>2</key>
-				<dict>
-					<key>name</key>
-					<string>storage.type.function.ale</string>
-				</dict>
-			</dict>
-			<key>comment</key>
-			<string>Phrase rule</string>
-			<key>end</key>
-			<string>(\.)</string>
-			<key>endCaptures</key>
-			<dict>
-				<key>1</key>
-				<dict>
-					<key>name</key>
-					<string>punctuation.definition.arguments.end.ale</string>
-				</dict>
-			</dict>
-			<key>name</key>
-			<string>phrase-rule.ale</string>
-			<key>patterns</key>
-			<array>
-				<dict>
-					<key>include</key>
-					<string>#cat_entry</string>
+					<string>#trale_item</string>
 				</dict>
 				<dict>
 					<key>include</key>
-					<string>#comments</string>
+					<string>#type_value</string>
 				</dict>
 				<dict>
 					<key>include</key>
-					<string>#goal_calling</string>
+					<string>#single_feature_type</string>
 				</dict>
 				<dict>
-					<key>match</key>
-					<string>\b(cat|goal)\b&gt;|===&gt;</string>
-					<key>name</key>
-					<string>storage.type.struct.ale</string>
+					<key>include</key>
+					<string>#single_feature_variable</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#single_feature_list</string>
 				</dict>
 			</array>
 		</dict>
@@ -175,7 +95,7 @@
 				<key>1</key>
 				<dict>
 					<key>name</key>
-					<string>variable.function.ale</string>
+					<string>entity.name.function.ale</string>
 				</dict>
 				<key>2</key>
 				<dict>
@@ -200,8 +120,10 @@
 			<key>patterns</key>
 			<array>
 				<dict>
-					<key>include</key>
-					<string>#cat_entry</string>
+					<key>match</key>
+					<string>\b(\*\*&gt;|morphs|if|becomes)\b</string>
+					<key>name</key>
+					<string>storage.type.function</string>
 				</dict>
 				<dict>
 					<key>include</key>
@@ -209,23 +131,60 @@
 				</dict>
 				<dict>
 					<key>include</key>
-					<string>#lists</string>
+					<string>#variable</string>
 				</dict>
 				<dict>
 					<key>include</key>
-					<string>#variable_arguments</string>
+					<string>#goal_calling</string>
 				</dict>
 				<dict>
 					<key>include</key>
-					<string>#when_pattern</string>
+					<string>#trale_item</string>
 				</dict>
 				<dict>
-					<key>match</key>
-					<string>\b(\*\*&gt;|morphs|if|becomes)\b</string>
-					<key>name</key>
-					<string>storage.type.function</string>
+					<key>include</key>
+					<string>#list</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#trale_item</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#type_value</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#single_feature_type</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#single_feature_variable</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#single_feature_list</string>
 				</dict>
 			</array>
+		</dict>
+		<dict>
+			<key>captures</key>
+			<dict>
+				<key>1</key>
+				<dict>
+					<key>name</key>
+					<string>keyword.declaration.semantics.ale</string>
+				</dict>
+				<key>2</key>
+				<dict>
+					<key>name</key>
+					<string>entity.name.function.ale</string>
+				</dict>
+			</dict>
+			<key>match</key>
+			<string>(semantics)\s+(\w+)\.</string>
+			<key>name</key>
+			<string>semantics.ale</string>
 		</dict>
 		<dict>
 			<key>begin</key>
@@ -235,7 +194,7 @@
 				<key>1</key>
 				<dict>
 					<key>name</key>
-					<string>variable.function.ale</string>
+					<string>entity.name.function.ale</string>
 				</dict>
 			</dict>
 			<key>comment</key>
@@ -296,7 +255,15 @@
 					<array>
 						<dict>
 							<key>include</key>
-							<string>#feature_list_item</string>
+							<string>#single_feature_variable</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>#single_feature_type</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>#single_feature_list</string>
 						</dict>
 						<dict>
 							<key>include</key>
@@ -307,12 +274,76 @@
 			</array>
 		</dict>
 		<dict>
+			<key>begin</key>
+			<string>([[:alpha:]_][[:alnum:]_]*)\s+(rule)</string>
+			<key>beginCaptures</key>
+			<dict>
+				<key>1</key>
+				<dict>
+					<key>name</key>
+					<string>entity.name.function.ale</string>
+				</dict>
+				<key>2</key>
+				<dict>
+					<key>name</key>
+					<string>storage.type.function.ale</string>
+				</dict>
+			</dict>
+			<key>comment</key>
+			<string>Phrase rule</string>
+			<key>end</key>
+			<string>(\.)</string>
+			<key>endCaptures</key>
+			<dict>
+				<key>1</key>
+				<dict>
+					<key>name</key>
+					<string>punctuation.definition.arguments.end.ale</string>
+				</dict>
+			</dict>
+			<key>name</key>
+			<string>phrase-rule.ale</string>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>include</key>
+					<string>#trale_item</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#comments</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#goal_calling</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#single_feature_variable</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#single_feature_type</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#single_feature_list</string>
+				</dict>
+				<dict>
+					<key>match</key>
+					<string>\b(cat|goal|sem_head)\b&gt;|===&gt;</string>
+					<key>name</key>
+					<string>storage.type.struct.ale</string>
+				</dict>
+			</array>
+		</dict>
+		<dict>
 			<key>include</key>
 			<string>#goal_calling</string>
 		</dict>
 		<dict>
 			<key>begin</key>
-			<string>\s*(if)\s+</string>
+			<string>\s*(if|:-)\s+</string>
 			<key>beginCaptures</key>
 			<dict>
 				<key>1</key>
@@ -361,30 +392,6 @@
 	</array>
 	<key>repository</key>
 	<dict>
-		<key>cat_entry</key>
-		<dict>
-			<key>begin</key>
-			<string>(\()</string>
-			<key>end</key>
-			<string>(\))</string>
-			<key>name</key>
-			<string>cat_entry.ale</string>
-			<key>patterns</key>
-			<array>
-				<dict>
-					<key>include</key>
-					<string>#type_value</string>
-				</dict>
-				<dict>
-					<key>include</key>
-					<string>#lists</string>
-				</dict>
-				<dict>
-					<key>include</key>
-					<string>#variable_arguments</string>
-				</dict>
-			</array>
-		</dict>
 		<key>comments</key>
 		<dict>
 			<key>patterns</key>
@@ -431,6 +438,53 @@
 			<key>name</key>
 			<string>constant.language.ale</string>
 		</dict>
+		<key>feature</key>
+		<dict>
+			<key>begin</key>
+			<string>(\w+)\s*(:)\s*\(</string>
+			<key>beginCaptures</key>
+			<dict>
+				<key>1</key>
+				<dict>
+					<key>name</key>
+					<string>support.type.ale</string>
+				</dict>
+				<key>2</key>
+				<dict>
+					<key>name</key>
+					<string>punctuation.separator.annotation.ale</string>
+				</dict>
+			</dict>
+			<key>end</key>
+			<string>(\))</string>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>include</key>
+					<string>#single_feature_variable</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#single_feature_type</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#single_feature_list</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#feature</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#variable</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#type_value</string>
+				</dict>
+			</array>
+		</dict>
 		<key>feature_list_item</key>
 		<dict>
 			<key>captures</key>
@@ -463,7 +517,7 @@
 				<key>1</key>
 				<dict>
 					<key>name</key>
-					<string>variable.function.ale</string>
+					<string>entity.name.function.ale</string>
 				</dict>
 			</dict>
 			<key>end</key>
@@ -507,15 +561,31 @@
 					<array>
 						<dict>
 							<key>include</key>
-							<string>#variable_arguments</string>
+							<string>#trale_item</string>
 						</dict>
 						<dict>
 							<key>include</key>
-							<string>#lists</string>
+							<string>#single_feature_variable</string>
 						</dict>
 						<dict>
 							<key>include</key>
-							<string>#cat_entry</string>
+							<string>#single_feature_type</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>#single_feature_list</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>#feature</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>#variable</string>
+						</dict>
+						<dict>
+							<key>include</key>
+							<string>#list</string>
 						</dict>
 						<dict>
 							<key>include</key>
@@ -525,7 +595,7 @@
 				</dict>
 			</array>
 		</dict>
-		<key>lists</key>
+		<key>list</key>
 		<dict>
 			<key>begin</key>
 			<string>(\[)</string>
@@ -557,15 +627,181 @@
 				</dict>
 				<dict>
 					<key>include</key>
-					<string>#variable_arguments</string>
+					<string>#single_feature_variable</string>
 				</dict>
 				<dict>
 					<key>include</key>
-					<string>#lists</string>
+					<string>#single_feature_type</string>
 				</dict>
 				<dict>
 					<key>include</key>
-					<string>#cat_entry</string>
+					<string>#single_feature_list</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#feature</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#variable</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#list</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#type_value</string>
+				</dict>
+			</array>
+		</dict>
+		<key>single_feature_list</key>
+		<dict>
+			<key>begin</key>
+			<string>(\w+)\s*(:)\s*(\[)</string>
+			<key>beginCaptures</key>
+			<dict>
+				<key>1</key>
+				<dict>
+					<key>name</key>
+					<string>support.type.ale</string>
+				</dict>
+				<key>2</key>
+				<dict>
+					<key>name</key>
+					<string>punctuation.separator.annotation.ale</string>
+				</dict>
+				<key>3</key>
+				<dict>
+					<key>name</key>
+					<string>punctuation.definition.list.begin.ale</string>
+				</dict>
+			</dict>
+			<key>end</key>
+			<string>(\])</string>
+			<key>endCaptures</key>
+			<dict>
+				<key>1</key>
+				<dict>
+					<key>name</key>
+					<string>punctuation.definition.list.end.ale</string>
+				</dict>
+			</dict>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>match</key>
+					<string>(\,|\|)</string>
+					<key>name</key>
+					<string>punctuation.separator.parameters.ale</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#single_feature_variable</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#single_feature_type</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#single_feature_list</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#feature</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#variable</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#list</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#type_value</string>
+				</dict>
+			</array>
+		</dict>
+		<key>single_feature_type</key>
+		<dict>
+			<key>captures</key>
+			<dict>
+				<key>1</key>
+				<dict>
+					<key>name</key>
+					<string>support.type.ale</string>
+				</dict>
+				<key>2</key>
+				<dict>
+					<key>name</key>
+					<string>punctuation.separator.annotation.ale</string>
+				</dict>
+				<key>3</key>
+				<dict>
+					<key>name</key>
+					<string>meta.generic-name.ale</string>
+				</dict>
+			</dict>
+			<key>match</key>
+			<string>(\w+)\s*(:)\s*(\w+)</string>
+		</dict>
+		<key>single_feature_variable</key>
+		<dict>
+			<key>captures</key>
+			<dict>
+				<key>1</key>
+				<dict>
+					<key>name</key>
+					<string>support.type.ale</string>
+				</dict>
+				<key>2</key>
+				<dict>
+					<key>name</key>
+					<string>punctuation.separator.annotation.ale</string>
+				</dict>
+				<key>3</key>
+				<dict>
+					<key>name</key>
+					<string>variable.parameter.uppercase.ale</string>
+				</dict>
+			</dict>
+			<key>match</key>
+			<string>(\w+)\s*(:)\s*(\b[A-Z]\w*)</string>
+		</dict>
+		<key>trale_item</key>
+		<dict>
+			<key>begin</key>
+			<string>(\()</string>
+			<key>end</key>
+			<string>(\))</string>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>include</key>
+					<string>#single_feature_variable</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#single_feature_type</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#single_feature_list</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#feature</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#variable</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#list</string>
 				</dict>
 				<dict>
 					<key>include</key>
@@ -590,52 +826,20 @@
 						<key>1</key>
 						<dict>
 							<key>name</key>
-							<string>support.type.ale</string>
+							<string>meta.generic-name.ale</string>
 						</dict>
 					</dict>
 					<key>match</key>
-					<string>(\w+)\:\s*</string>
+					<string>(\w+)</string>
 				</dict>
 			</array>
 		</dict>
-		<key>variable_arguments</key>
+		<key>variable</key>
 		<dict>
 			<key>match</key>
 			<string>\b[A-Z]\w*</string>
 			<key>name</key>
 			<string>variable.parameter.uppercase.ale</string>
-		</dict>
-		<key>when_pattern</key>
-		<dict>
-			<key>begin</key>
-			<string>(when)</string>
-			<key>beginCaptures</key>
-			<dict>
-				<key>1</key>
-				<dict>
-					<key>name</key>
-					<string>storage.type.function</string>
-				</dict>
-			</dict>
-			<key>end</key>
-			<string>(?=(\.|,))</string>
-			<key>endCaptures</key>
-			<dict>
-				<key>1</key>
-				<dict>
-					<key>name</key>
-					<string>punctuation.definition.arguments.end.ale</string>
-				</dict>
-			</dict>
-			<key>name</key>
-			<string>when_pattern.ale</string>
-			<key>patterns</key>
-			<array>
-				<dict>
-					<key>include</key>
-					<string>#goal_calling</string>
-				</dict>
-			</array>
 		</dict>
 	</dict>
 	<key>scopeName</key>
