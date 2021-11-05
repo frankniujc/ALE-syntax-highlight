@@ -103,7 +103,7 @@ patterns:
     - include: '#single_feature_type'
     - include: '#single_feature_list'
     - name: storage.type.struct.ale
-      match: \b(cat|goal|sem_head)\b>|===>
+      match: \b(cat|goal|sem_head|sem_goal)\b>|===>
 
 
 - include: '#goal_calling'

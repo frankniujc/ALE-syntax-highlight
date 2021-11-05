@@ -331,7 +331,7 @@
 				</dict>
 				<dict>
 					<key>match</key>
-					<string>\b(cat|goal|sem_head)\b&gt;|===&gt;</string>
+					<string>\b(cat|goal|sem_head|sem_goal)\b&gt;|===&gt;</string>
 					<key>name</key>
 					<string>storage.type.struct.ale</string>
 				</dict>
