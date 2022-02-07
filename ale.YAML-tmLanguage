@@ -6,250 +6,221 @@ uuid: 11B0273F-0284-4483-B17B-4B8D0A9294CC
 
 patterns:
 
-- name: trale-item.ale
-  include: '#trale_item'
-
-- name: list.ale
-  include: '#list'
-
 - include: '#comments'
 
-- name: lexical-entry.ale
-  comment: Lexical entries
-  begin: ('?[\w|\\']+'?\s+)(--->)
-  beginCaptures:
-    '1': {name: constant.other.atom.simple.ale}
-    '2': {name: keyword.control.ale}
-  end: (\.)
-  endCaptures:
-    '1': {name: punctuation.definition.arguments.end.ale}
-  patterns:
-    - include: '#trale_item'
-    - include: '#type_value'
-    - include: '#single_feature_type'
-    - include: '#single_feature_variable'
-    - include: '#single_feature_list'
+- include: '#goal_macro_body'
 
-- name: lex-rule.ale
-  comment: Lexical rule
-  begin: ([[:alpha:]_][[:alnum:]_]*)\s+(lex_rule)
-  beginCaptures:
-    '1': {name: entity.name.function.ale}
-    '2': {name: storage.type.function.ale}
-  end: (\.)
-  endCaptures:
-    '1': {name: punctuation.definition.arguments.end.ale}
-  patterns:
-    - name: storage.type.function
-      match: \b(\*\*>|morphs|if|becomes)\b
-    - include: '#comments'
-    - include: '#variable'
-    - include: '#goal_calling'
-    - include: '#trale_item'
-    - include: '#list'
-    - include: '#trale_item'
-    - include: '#type_value'
-    - include: '#single_feature_type'
-    - include: '#single_feature_variable'
-    - include: '#single_feature_list'
+# This is actually a prolog function call
+- include: '#goal_call'
 
-- name: semantics.ale
-  match: (semantics)\s+(\w+)\.
-  captures:
-    '1': {name: keyword.declaration.semantics.ale}
-    '2': {name: entity.name.function.ale}
-
-- name: type.definition.ale
-  comment: Defining types
-  begin: (\w+)\s+(?=(sub|intro))
-  beginCaptures:
-    '1': {name: entity.name.function.ale}
-  end: (\.)
-  endCaptures:
-    '1': {name: punctuation.definition.parameters.begin.ale}
-  patterns:
-  - contentName: type.definition.sublist.ale
-    begin: \b(sub)\b\s+\[
-    beginCaptures:
-      '1': {name: storage.type.function}
-    end: \]
-    patterns:
-    - include: '#type_list_item'
-  - contentName: type.definition.intro.ale
-    begin: \b(intro)\b\s+\[
-    beginCaptures:
-      '1': {name: storage.type.function}
-    end: \]
-    patterns:
-    - include: '#single_feature_variable'
-    - include: '#single_feature_type'
-    - include: '#single_feature_list'
-    - include: '#comments'
-
-- name: phrase-rule.ale
-  comment: Phrase rule
-  begin: ([[:alpha:]_][[:alnum:]_]*)\s+(rule)
-  beginCaptures:
-    '1': {name: entity.name.function.ale}
-    '2': {name: storage.type.function.ale}
-  end: (\.)
-  endCaptures:
-    '1': {name: punctuation.definition.arguments.end.ale}
-  patterns:
-    - include: '#trale_item'
-    - include: '#comments'
-    - include: '#goal_calling'
-    - include: '#single_feature_variable'
-    - include: '#single_feature_type'
-    - include: '#single_feature_list'
-    - name: storage.type.struct.ale
-      match: \b(cat|goal|sem_head|sem_goal)\b>|===>
-
-
-- include: '#goal_calling'
-
-- name: goal.definition.ale
-  comment: Defining goals
-  begin: \s*(if|:-)\s+
-  beginCaptures:
-    '1': {name: storage.type.function.ale}
-  end: (\.)
-  endCaptures:
-    '1': {name: punctuation.definition.parameters.begin.ale}
-  patterns:
-  - contentName: goal.name.ale
-    patterns:
-    - include: '#goal_calling'
-    - include: '#constants'
-    - include: '#comments'
+- include: '#statement'
 
 repository:
-  goal_calling:
+  statement:
+    name: statement.ale
+    begin: (?=([[:alpha:]_][[:alnum:]_]*))
+    end: (\.)
+    endCaptures:
+      '1': {name: statement.end.ale}
+    patterns:
+    - include: '#type_declaration'
+    - include: '#lexical_entry'
+    - include: '#goal_macro_declaration'
+    - include: '#goal_macro_body'
+    - include: '#grammar_rule'
+    - include: '#empty_category'
+
+  empty_category:
+    name: empty.decalaration.ale
+    begin: (empty)
+    beginCaptures:
+      '1': {name: keyword.control.empty.ale}
+    end: (\.)
+    endCaptures:
+      '1': {name: empty.decalaration.end.ale}
+    patterns:
+    - include: '#comments'
+    - include: '#macro_call'
+    - include: '#goal_call'
+    - include: '#variable'
+    - include: '#feature'
+    - include: '#type'
+
+  grammar_rule:
+    name: grammar-rule.declaration.ale
+    begin: ([[:alpha:]_][[:alnum:]_]*)\s+(rule)
+    beginCaptures:
+      '1': {name: keyword.control.macro.ale}
+      '2': {name: entity.name.function.ale}
+    end: (\.)
+    endCaptures:
+      '1': {name: grammar-rule.declaration.end.ale}
+    patterns:
+    - include: '#grammar_rule_body'
+    - include: '#grammar_rule_head'
+
+  grammar_rule_head:
+    name: grammar-rule.head.ale
+    begin: \b
+    end: (===>)
+    endCaptures:
+      '1': {name: keyword.control.ale}
+    patterns:
+    - include: '#comments'
+    - include: '#macro_call'
+    - include: '#goal_call'
+    - include: '#variable'
+    - include: '#feature'
+    - include: '#type'
+
+  grammar_rule_body:
+    name: grammar-rule.body.ale
+    begin: (cat>|sem_head>|goal>|sem_goal>)
+    beginCaptures:
+      '1': {name: keyword.control.ale}
+    end: (?=(cat>|sem_head>|goal>|sem_goal>|\.))
+    patterns:
+    - include: '#comments'
+    - include: '#macro_call'
+    - include: '#goal_call'
+    - include: '#variable'
+    - include: '#feature'
+    - include: '#type'
+
+  lexical_entry:
+    name: lexical-entry.declaration.ale
+    begin: ('?[\w|\\']+'?)\s+(--->)
+    beginCaptures:
+      '1': {name: constant.other.atom.simple.ale}
+      '2': {name: keyword.control.ale}
+    end: (\.)
+    endCaptures:
+      '1': {name: lexical-entry.declaration.end.ale}
+    patterns:
+    - include: '#comments'
+    - include: '#macro_call'
+    - include: '#goal_call'
+    - include: '#variable'
+    - include: '#feature'
+    - include: '#type'
+
+  macro_call:
+    name: macro.call.ale
+    begin: (\@)([[:alpha:]_][[:alnum:]_]*)
+    beginCaptures:
+      '1': {name: keyword.control.macro.ale}
+      '2': {name: entity.name.function.ale}
+    end: (\))
+    patterns:
+    - include: '#macro_call'
+    - include: '#goal_call'
+    - include: '#variable'
+    - include: '#feature'
+    - include: '#type'
+
+  goal_call:
     name: goal.call.ale
-    begin: ([[:alpha:]_][[:alnum:]_]*)\s*(?=(\())
+    begin: ([[:alpha:]_][[:alnum:]_]*)(?=(\())
     beginCaptures:
       '1': {name: entity.name.function.ale}
     end: (\))
-    endCaptures:
-      '1': {name: punctuation.definition.arguments.end.ale}
     patterns:
-    - contentName: meta.function-call.arguments.ale
-      begin: (\()
-      beginCaptures:
-        '1': {name: punctuation.definition.arguments.begin.ale}
-      end: (?=(\)))
-      endCaptures:
-        '1': {name: punctuation.definition.arguments.end.ale}
-      patterns:
-      - include: '#trale_item'
-      - include: '#single_feature_variable'
-      - include: '#single_feature_type'
-      - include: '#single_feature_list'
-      - include: '#feature'
-      - include: '#variable'
-      - include: '#list'
-      - include: '#type_value'
+    - include: '#macro_call'
+    - include: '#goal_call'
+    - include: '#variable'
+    - include: '#feature'
+    - include: '#type'
 
+  goal_macro_declaration:
+    name: goal-macro.declaration.ale
+    begin: ([[:alpha:]_][[:alnum:]_]*)(?=(\())
+    beginCaptures:
+      '1': {name: support.function.ale}
+    end: (?=(macro|if|:-))
+    patterns:
+    - include: '#parameter_declaration'
 
-  type_list_item:
-    name: constant.other.atom.simple.ale
-    match: \w+
-
-  feature_list_item:
-    match: (\w+)\s*(:)\s*(\w+)
-    captures:
-      '1': {name: variable.parameter.ale}
-      '2': {name: punctuation.separator.annotation.ale}
-      '3': {name: support.type.ale}
-
-  trale_item:
+  parameter_declaration:
+    name: parameter.declaration.ale
     begin: (\()
-    end: (\))
+    end: (\))\s+(?=(macro|if|:-))
     patterns:
-      - include: '#single_feature_variable'
-      - include: '#single_feature_type'
-      - include: '#single_feature_list'
-      - include: '#feature'
-      - include: '#variable'
-      - include: '#list'
-      - include: '#type_value'
+    - include: '#macro_call'
+    - include: '#variable'
+    - include: '#feature'
+    - include: '#type'
 
-  type_value:
+  goal_macro_body:
+    name: goal-macro.body.ale
+    begin: (macro|if|:-)
+    beginCaptures:
+      '1': {name: keyword.declaration.function.ale}
+    end: \.
     patterns:
-    - match: (\w+)
-      captures:
-        '1': {name: meta.generic-name.ale}
+    - include: '#macro_call'
+    - include: '#goal_call'
+    - include: '#constant'
+    - include: '#cut'
+    - include: '#variable'
+    - include: '#feature'
+    - include: '#type'
 
   variable:
-    match: \b[A-Z]\w*
+    match: \b([A-Z]\w*)\b
     name: variable.parameter.uppercase.ale
+    
+
+  type_declaration:
+    name: type.declaration.ale
+    begin: ([[:alpha:]_][[:alnum:]_]*)\s+(?=(sub|intro))
+    beginCaptures:
+      '1': {name: entity.name.type.ale}
+    end: (\.)
+    endCaptures:
+      '1': {name: type.declaration.end.ale}
+    patterns:
+    - include: '#type_sub_declaration'
+    - include: '#type_intro_declaration'
+
+  type_sub_declaration:
+    name: type.sub.declaration.ale
+    begin: (sub)\s+(\[)
+    beginCaptures:
+      '1': {name: keyword.declaration.function.ale}
+      '2': {name: type.sub.declaration.end.ale}
+    end: (\])
+    patterns:
+    - include: '#included_type'
+
+  included_type:
+      name: constant.other.atom.simple.ale
+      match: \b(\w+)\b
+
+  type:
+      name: type.name.ale
+      match: \b(\w+)\b
+
+  type_intro_declaration:
+    name: type.intro.declaration.ale
+    begin: (intro)\s+(\[)
+    beginCaptures:
+      '1': {name: keyword.declaration.function.ale}
+      '2': {name: type.intro.declaration.end.ale}
+    end: (\])
+    patterns:
+    - include: '#feature'
 
   feature:
-    begin: (\w+)\s*(:)\s*\(
+    name: feature.ale
+    begin: ([[:alpha:]_][[:alnum:]_]*)\s*(:)
     beginCaptures:
       '1': {name: support.type.ale}
-      '2': {name: punctuation.separator.annotation.ale}
-    end: (\))
+      '2': {name: feature.separator.ale}
+    end: (?=(,|]|\.|\b))
     patterns:
-      - include: '#single_feature_variable'
-      - include: '#single_feature_type'
-      - include: '#single_feature_list'
-      - include: '#feature'
-      - include: '#variable'
-      - include: '#type_value'
-
-  single_feature_type:
-    match: (\w+)\s*(:)\s*(\w+)
-    captures:
-      '1': {name: support.type.ale}
-      '2': {name: punctuation.separator.annotation.ale}
-      '3': {name: meta.generic-name.ale}
-
-  single_feature_variable:
-    match: (\w+)\s*(:)\s*(\b[A-Z]\w*)
-    captures:
-      '1': {name: support.type.ale}
-      '2': {name: punctuation.separator.annotation.ale}
-      '3': {name: variable.parameter.uppercase.ale}
-
-  single_feature_list:
-    begin: (\w+)\s*(:)\s*(\[)
-    beginCaptures:
-      '1': {name: support.type.ale}
-      '2': {name: punctuation.separator.annotation.ale}
-      '3': {name: punctuation.definition.list.begin.ale}
-    end: (\])
-    endCaptures:
-      '1': {name: punctuation.definition.list.end.ale}
-
-    patterns:
-    - match: (\,|\|)
-      name: punctuation.separator.parameters.ale
-    - include: '#single_feature_variable'
-    - include: '#single_feature_type'
-    - include: '#single_feature_list'
-    - include: '#feature'
+    - include: '#macro_call'
     - include: '#variable'
-    - include: '#list'
-    - include: '#type_value'
-
-  list:
-    begin: (\[)
-    beginCaptures:
-      '1': {name: punctuation.definition.list.begin.ale}
-    end: (\])
-    endCaptures:
-      '1': {name: punctuation.definition.list.end.ale}
-    patterns:
-    - match: (\,|\|)
-      name: punctuation.separator.parameters.ale
-    - include: '#single_feature_variable'
-    - include: '#single_feature_type'
-    - include: '#single_feature_list'
-    - include: '#feature'
-    - include: '#variable'
-    - include: '#list'
-    - include: '#type_value'
+    - include: '#type'
 
   comments:
     patterns:
@@ -263,9 +234,13 @@ repository:
       captures:
         '1': {name: punctuation.definition.comment.ale}
 
-  constants:
+  constant:
     name: constant.language.ale
     match: \b(true|bot|top)\b
+
+  cut:
+    name: keyword.other.cut.ale
+    match: (!)
 
 author: Frank Niu
 bundleUUID: EB590797-FBEE-4BEA-A140-8339AFD2CE1B
