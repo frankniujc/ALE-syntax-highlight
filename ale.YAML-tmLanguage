@@ -28,7 +28,18 @@ repository:
     - include: '#goal_macro_declaration'
     - include: '#goal_macro_body'
     - include: '#grammar_rule'
+    # - include: '#lex_rule'
+    # TODO: Add lex_rule
     - include: '#empty_category'
+    - include: '#semantics'
+
+  semantics:
+    name: semantics.decalaration.ale
+    match: (semantics)\s+(([[:alpha:]_][[:alnum:]_]*))(\.)
+    captures:
+      '1': {name: keyword.control.semantics.ale}
+      '2': {name: entity.name.function.semantics.ale}
+      '3': {name: semantics.decalaration.end.ale}
 
   empty_category:
     name: empty.decalaration.ale

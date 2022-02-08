@@ -426,6 +426,131 @@
 			<key>name</key>
 			<string>constant.other.atom.simple.ale</string>
 		</dict>
+		<key>lex_rule</key>
+		<dict>
+			<key>begin</key>
+			<string>([[:alpha:]_][[:alnum:]_]*)\s+(lex_rule)</string>
+			<key>beginCaptures</key>
+			<dict>
+				<key>1</key>
+				<dict>
+					<key>name</key>
+					<string>keyword.control.macro.ale</string>
+				</dict>
+				<key>2</key>
+				<dict>
+					<key>name</key>
+					<string>entity.name.function.ale</string>
+				</dict>
+			</dict>
+			<key>end</key>
+			<string>(\.)</string>
+			<key>endCaptures</key>
+			<dict>
+				<key>1</key>
+				<dict>
+					<key>name</key>
+					<string>grammar-rule.declaration.end.ale</string>
+				</dict>
+			</dict>
+			<key>name</key>
+			<string>lex-rule.declaration.ale</string>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>include</key>
+					<string>#lex_rule_morphs</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#lex_rule_head</string>
+				</dict>
+			</array>
+		</dict>
+		<key>lex_rule_head</key>
+		<dict>
+			<key>begin</key>
+			<string>\b</string>
+			<key>end</key>
+			<string>(\*\*&gt;)</string>
+			<key>endCaptures</key>
+			<dict>
+				<key>1</key>
+				<dict>
+					<key>name</key>
+					<string>keyword.control.ale</string>
+				</dict>
+			</dict>
+			<key>name</key>
+			<string>lex-rule.head.ale</string>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>include</key>
+					<string>#comments</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#macro_call</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#goal_call</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#variable</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#feature</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#type</string>
+				</dict>
+			</array>
+		</dict>
+		<key>lex_rule_morph_entry</key>
+		<dict>
+			<key>begin</key>
+			<string>(\b)</string>
+			<key>end</key>
+			<string>(?=(becomes))</string>
+			<key>name</key>
+			<string>lex-rule.morph-entry.ale</string>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>include</key>
+					<string>#string_pattern</string>
+				</dict>
+			</array>
+		</dict>
+		<key>lex_rule_morphs</key>
+		<dict>
+			<key>begin</key>
+			<string>(morphs)</string>
+			<key>beginCaptures</key>
+			<dict>
+				<key>1</key>
+				<dict>
+					<key>name</key>
+					<string>keyword.control.ale</string>
+				</dict>
+			</dict>
+			<key>end</key>
+			<string>(\.)</string>
+			<key>name</key>
+			<string>lex-rule.morphs.ale</string>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>include</key>
+					<string>#lex_rule_morph_entry</string>
+				</dict>
+			</array>
+		</dict>
 		<key>lexical_entry</key>
 		<dict>
 			<key>begin</key>
@@ -556,6 +681,31 @@
 				</dict>
 			</array>
 		</dict>
+		<key>semantics</key>
+		<dict>
+			<key>captures</key>
+			<dict>
+				<key>1</key>
+				<dict>
+					<key>name</key>
+					<string>keyword.control.semantics.ale</string>
+				</dict>
+				<key>2</key>
+				<dict>
+					<key>name</key>
+					<string>entity.name.function.semantics.ale</string>
+				</dict>
+				<key>3</key>
+				<dict>
+					<key>name</key>
+					<string>semantics.decalaration.end.ale</string>
+				</dict>
+			</dict>
+			<key>match</key>
+			<string>(semantics)\s+(([[:alpha:]_][[:alnum:]_]*))(\.)</string>
+			<key>name</key>
+			<string>semantics.decalaration.ale</string>
+		</dict>
 		<key>statement</key>
 		<dict>
 			<key>begin</key>
@@ -596,7 +746,27 @@
 				</dict>
 				<dict>
 					<key>include</key>
+					<string>#lex_rule</string>
+				</dict>
+				<dict>
+					<key>include</key>
 					<string>#empty_category</string>
+				</dict>
+				<dict>
+					<key>include</key>
+					<string>#semantics</string>
+				</dict>
+			</array>
+		</dict>
+		<key>string_pattern</key>
+		<dict>
+			<key>name</key>
+			<string>string-pattern.ale</string>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>include</key>
+					<string>#variable</string>
 				</dict>
 			</array>
 		</dict>
