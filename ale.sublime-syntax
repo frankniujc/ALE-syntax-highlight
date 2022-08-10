@@ -1,0 +1,287 @@
+%YAML 1.2
+---
+# http://www.sublimetext.com/docs/syntax.html
+name: ale
+comment: ALE syntax highlight
+file_extensions:
+  - pl
+  - plt
+scope: source.ale
+contexts:
+  main:
+    - include: comments
+    - include: goal_macro_body
+    - include: goal_call
+    - include: statement
+  comments:
+    - match: (%+)\s*(BUG|FIXME|TODO).*$
+      scope: comment.line.note.ale
+      captures:
+        1: punctuation.definition.comment.ale
+        2: comment.line.note.notation.ale
+    - match: (%+).*$
+      scope: comment.line.number-sign.ale
+      captures:
+        1: punctuation.definition.comment.ale
+  constant:
+    - match: \b(true|bot|top)\b
+      scope: constant.language.ale
+  cut:
+    - match: (!)
+      scope: keyword.other.cut.ale
+  empty_category:
+    - match: (empty)
+      captures:
+        1: keyword.control.empty.ale
+      push:
+        - meta_scope: empty.decalaration.ale
+        - match: (\.)
+          captures:
+            1: empty.decalaration.end.ale
+          pop: true
+        - include: comments
+        - include: macro_call
+        - include: goal_call
+        - include: variable
+        - include: feature
+        - include: type
+  feature:
+    - match: '([[:alpha:]_][[:alnum:]_]*)\s*(:)'
+      captures:
+        1: support.type.ale
+        2: feature.separator.ale
+      push:
+        - meta_scope: feature.ale
+        - match: '(?=(,|]|\.|\b))'
+          pop: true
+        - include: macro_call
+        - include: variable
+        - include: type
+  goal_call:
+    - match: '([[:alpha:]_][[:alnum:]_]*)(?=(\())'
+      captures:
+        1: entity.name.function.ale
+      push:
+        - meta_scope: goal.call.ale
+        - match: (\))
+          pop: true
+        - include: macro_call
+        - include: goal_call
+        - include: variable
+        - include: feature
+        - include: type
+  goal_macro_body:
+    - match: (macro|if|:-)
+      captures:
+        1: keyword.declaration.function.ale
+      push:
+        - meta_scope: goal-macro.body.ale
+        - match: \.
+          pop: true
+        - include: macro_call
+        - include: goal_call
+        - include: constant
+        - include: cut
+        - include: variable
+        - include: feature
+        - include: type
+  goal_macro_declaration:
+    - match: '([[:alpha:]_][[:alnum:]_]*)(?=(\())'
+      captures:
+        1: support.function.ale
+      push:
+        - meta_scope: goal-macro.declaration.ale
+        - match: (?=(macro|if|:-))
+          pop: true
+        - include: parameter_declaration
+  grammar_rule:
+    - match: '([[:alpha:]_][[:alnum:]_]*)\s+(rule)'
+      captures:
+        1: keyword.control.macro.ale
+        2: entity.name.function.ale
+      push:
+        - meta_scope: grammar-rule.declaration.ale
+        - match: (\.)
+          captures:
+            1: grammar-rule.declaration.end.ale
+          pop: true
+        - include: grammar_rule_body
+        - include: grammar_rule_head
+  grammar_rule_body:
+    - match: (cat>|sem_head>|goal>|sem_goal>)
+      captures:
+        1: keyword.control.ale
+      push:
+        - meta_scope: grammar-rule.body.ale
+        - match: (?=(cat>|sem_head>|goal>|sem_goal>|\.))
+          pop: true
+        - include: comments
+        - include: macro_call
+        - include: goal_call
+        - include: variable
+        - include: feature
+        - include: type
+  grammar_rule_head:
+    - match: \b
+      push:
+        - meta_scope: grammar-rule.head.ale
+        - match: (===>)
+          captures:
+            1: keyword.control.ale
+          pop: true
+        - include: comments
+        - include: macro_call
+        - include: goal_call
+        - include: variable
+        - include: feature
+        - include: type
+  included_type:
+    - match: \b(\w+)\b
+      scope: constant.other.atom.simple.ale
+  lex_rule:
+    - match: '([[:alpha:]_][[:alnum:]_]*)\s+(lex_rule)'
+      captures:
+        1: keyword.control.macro.ale
+        2: entity.name.function.ale
+      push:
+        - meta_scope: lex-rule.declaration.ale
+        - match: (\.)
+          captures:
+            1: grammar-rule.declaration.end.ale
+          pop: true
+        - include: lex_rule_morphs
+        - include: lex_rule_head
+  lex_rule_head:
+    - match: \b
+      push:
+        - meta_scope: lex-rule.head.ale
+        - match: (\*\*>)
+          captures:
+            1: keyword.control.ale
+          pop: true
+        - include: comments
+        - include: macro_call
+        - include: goal_call
+        - include: variable
+        - include: feature
+        - include: type
+  lex_rule_morph_entry:
+    - match: (\b)
+      push:
+        - meta_scope: lex-rule.morph-entry.ale
+        - match: (?=(becomes))
+          pop: true
+        - include: string_pattern
+  lex_rule_morphs:
+    - match: (morphs)
+      captures:
+        1: keyword.control.ale
+      push:
+        - meta_scope: lex-rule.morphs.ale
+        - match: (\.)
+          pop: true
+        - include: lex_rule_morph_entry
+  lexical_entry:
+    - match: '(''?[\w|\\'']+''?)\s+(--->)'
+      captures:
+        1: constant.other.atom.simple.ale
+        2: keyword.control.ale
+      push:
+        - meta_scope: lexical-entry.declaration.ale
+        - match: (\.)
+          captures:
+            1: lexical-entry.declaration.end.ale
+          pop: true
+        - include: comments
+        - include: macro_call
+        - include: goal_call
+        - include: variable
+        - include: feature
+        - include: type
+  macro_call:
+    - match: '(\@)([[:alpha:]_][[:alnum:]_]*)'
+      captures:
+        1: keyword.control.macro.ale
+        2: entity.name.function.ale
+      push:
+        - meta_scope: macro.call.ale
+        - match: (\))
+          pop: true
+        - include: macro_call
+        - include: goal_call
+        - include: variable
+        - include: feature
+        - include: type
+  parameter_declaration:
+    - match: (\()
+      push:
+        - meta_scope: parameter.declaration.ale
+        - match: (\))\s+(?=(macro|if|:-))
+          pop: true
+        - include: macro_call
+        - include: variable
+        - include: feature
+        - include: type
+  semantics:
+    - match: '(semantics)\s+(([[:alpha:]_][[:alnum:]_]*))(\.)'
+      scope: semantics.decalaration.ale
+      captures:
+        1: keyword.control.semantics.ale
+        2: entity.name.function.semantics.ale
+        3: semantics.decalaration.end.ale
+  statement:
+    - match: '(?=([[:alpha:]_][[:alnum:]_]*))'
+      push:
+        - meta_scope: statement.ale
+        - match: (\.)
+          captures:
+            1: statement.end.ale
+          pop: true
+        - include: type_declaration
+        - include: lexical_entry
+        - include: goal_macro_declaration
+        - include: goal_macro_body
+        - include: grammar_rule
+        - include: lex_rule
+        - include: empty_category
+        - include: semantics
+  string_pattern:
+    - include: variable
+  type:
+    - match: \b(\w+)\b
+      scope: type.name.ale
+  type_declaration:
+    - match: '([[:alpha:]_][[:alnum:]_]*)\s+(?=(sub|intro))'
+      captures:
+        1: entity.name.type.ale
+      push:
+        - meta_scope: type.declaration.ale
+        - match: (\.)
+          captures:
+            1: type.declaration.end.ale
+          pop: true
+        - include: type_sub_declaration
+        - include: type_intro_declaration
+  type_intro_declaration:
+    - match: '(intro)\s+(\[)'
+      captures:
+        1: keyword.declaration.function.ale
+        2: type.intro.declaration.end.ale
+      push:
+        - meta_scope: type.intro.declaration.ale
+        - match: '(\])'
+          pop: true
+        - include: feature
+  type_sub_declaration:
+    - match: '(sub)\s+(\[)'
+      captures:
+        1: keyword.declaration.function.ale
+        2: type.sub.declaration.end.ale
+      push:
+        - meta_scope: type.sub.declaration.ale
+        - match: '(\])'
+          pop: true
+        - include: included_type
+  variable:
+    - match: '\b([A-Z]\w*)\b'
+      scope: variable.parameter.uppercase.ale
