@@ -78,6 +78,7 @@ contexts:
         - meta_scope: goal-macro.body.ale
         - match: \.
           pop: true
+        - include: comments
         - include: macro_call
         - include: goal_call
         - include: constant
@@ -237,6 +238,7 @@ contexts:
           captures:
             1: statement.end.ale
           pop: true
+        - include: comments
         - include: type_declaration
         - include: lexical_entry
         - include: goal_macro_declaration
