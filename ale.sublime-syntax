@@ -14,13 +14,8 @@ contexts:
     - include: goal_call
     - include: statement
   comments:
-    - match: (%+)\s*(BUG|FIXME|TODO).*$
-      scope: comment.line.note.ale
-      captures:
-        1: punctuation.definition.comment.ale
-        2: comment.line.note.notation.ale
     - match: (%+).*$
-      scope: comment.line.number-sign.ale
+      scope: comment.line.percentage.ale
       captures:
         1: punctuation.definition.comment.ale
   constant:
@@ -206,7 +201,7 @@ contexts:
         2: entity.name.function.ale
       push:
         - meta_scope: macro.call.ale
-        - match: (\))
+        - match: (?=(,|]|\.|\b))
           pop: true
         - include: macro_call
         - include: goal_call
